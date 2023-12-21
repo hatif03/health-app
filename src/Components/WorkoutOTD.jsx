@@ -14,7 +14,7 @@ const WorkoutOTD = () => {
       });
 
   return (
-    <TouchableOpacity className="items-center justify-center">
+    <TouchableOpacity className="items-center justify-center my-5">
         <View className=" rounded-3xl overflow-hidden h-40 w-[80%]">
             <ImageBackground
                 source={workout}
@@ -22,7 +22,7 @@ const WorkoutOTD = () => {
                 resizeMode='cover'
             >
                 <View>
-                    <Text className=" text-white/80 text-3xl tracking-tight" style={{fontFamily: 'Lato_700Bold'}}>Workout of the Day</Text>
+                    <Text className=" text-white/80 text-3xl tracking-tight" style={{fontFamily:'Lato_700Bold'}}>Workout of the Day</Text>
                 </View>
             </ImageBackground>
         </View>
