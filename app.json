@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "health-app",
-    "slug": "health-app",
+    "slug": "gymbros",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -21,10 +21,17 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.hatif03.gymbros"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "270182fd-d2fe-4c30-9e99-3ffc866b1605"
+      }
+    },
+    "owner": "hatif03"
   }
 }

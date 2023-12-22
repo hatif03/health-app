@@ -25,34 +25,38 @@ const workoutData = [
 
 const CategoryItems = () => {
 
-    const renderWorkoutItem= ({item}) => {
+    const renderWorkoutItem = ({ item }) => (
         <TouchableOpacity>
-            <ImageBackground
-                source={item.imageSource}
-                className=" h-36 w-40 rounded-2xl overflow-hidden mx-2 bg-red-900"
-            >
-                <View>
-                    <View>
-                    <FontAwesome5 name="dumbbell" size={15} color="white" />
-                    <Text>{item.numberOfExercises}</Text>
-                    </View>
-                    <Text>{item.title}</Text>
-                </View>
-            </ImageBackground>
+          <ImageBackground
+            source={item.imageSource}
+            className="h-36 w-40 rounded-2xl overflow-hidden mx-2 bg-pink-900"
+          >
+            <View className="flex-1 justify-between m-3">
+              <View className="flex-row items-center space-x-1">
+                <FontAwesome5 name="dumbbell" size={15} color="white" />
+                <Text className="text-white font-bold tracking-widest">
+                  {item.numberOfExercises}
+                </Text>
+              </View>
+              <Text className="text-white font-medium tracking-widest">
+                {item.title}
+              </Text>
+            </View>
+          </ImageBackground>
         </TouchableOpacity>
-    };
-
-  return (
-    <View>
-      <FlatList
-        data={workoutData}
-        renderItem={({item}) => renderWorkoutItem(item)}
-        keyExtractor={item => item.id}
-        horizontal={true}
-        showsHorizontalScrollIndicator={false}
-      />
-    </View>
-  )
+      );
+    
+      return (
+        <View>
+          <FlatList
+            data={workoutData}
+            renderItem={renderWorkoutItem}
+            keyExtractor={(item) => item.id}
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+          />
+        </View>
+      );
 }
 
 export default CategoryItems
