@@ -6,16 +6,21 @@ import WorkoutOTD from '../Components/WorkoutOTD'
 import Seperator from '../Components/Seperator'
 import Category from '../Components/Category'
 import Exercise from '../Components/Exercise'
+import { GestureHandlerRootView, ScrollView } from 'react-native-gesture-handler'
 
 const WorkoutScreen = () => {
   return (
     <SafeAreaView className=" mx-[2%]">
         <Welcome/>
-        <WorkoutOTD/>
-        <Seperator/>
-        <Category/>
-        <Seperator/>
-        <Exercise/>
+        <GestureHandlerRootView>
+            <ScrollView showsVerticalScrollIndicator={false}>
+                <WorkoutOTD/>
+                <Seperator/>
+                <Category/>
+                <Seperator/>
+                <Exercise/>
+            </ScrollView>
+        </GestureHandlerRootView>
     </SafeAreaView>
   )
 }
