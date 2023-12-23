@@ -7,7 +7,14 @@ import { storage } from '../../Firebase/config';
 const ExerciseScreen = () => {
     const route = useRoute();
     const {item} = route.params;
-    const [gifUrl, setGifUrl] = useState(null)
+
+    const [gifUrl, setGifUrl] = useState(null);
+    const initTime = 60;
+    const minTime = 10;
+    const [time, setTime] = useState(initTime);
+    const [isRunning, setIsRunning] = useState(false);
+    const [isAudioPlaying, setAudioPlaying] = useState(false);
+    const [isFirstTime, setIsFirstTime] = useState(true);
 
     const fetchGifUrl = async () => {
         try{
@@ -22,6 +29,24 @@ const ExerciseScreen = () => {
     useEffect(() => {
         fetchGifUrl();
     }, []);
+
+    const handleDecreaseTime = () => {
+        if(!isRunning && time>minTime){
+            setTime((prevTime) => prevTime-10)
+        }
+    };
+
+    const handleIncreaseTime = () => {
+        if(!isRunning){
+            setTime((prevTime) => prevTime+10)
+        }
+    };
+
+    const handleReset = () => {
+        setIsRunning(false);
+        setIsFirstTime(true);
+        setTime(initTime);
+    };
     
   return (
     <View className=" flex-1">
@@ -32,7 +57,9 @@ const ExerciseScreen = () => {
             <ActivityIndicator size={"large"} color={"gray"}/>
         </View>
       )}
-      <ScrollView>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+      >
         <View className=" mt-4 mx-3">
             <Text className=" text-2xl font-bold text-center mb-1">{item.title}</Text>
             <View className=" flex-row items-center text-center mx-auto">
@@ -63,13 +90,15 @@ const ExerciseScreen = () => {
         </View>
         <View className="mt-4 flex-row items-center justify-center space-x-3">
             <TouchableOpacity
+                onPress={handleDecreaseTime}
                 className="items-center justify-center w-14 h-14 bg-red-500 rounded-full"
             >
                 <Text className="text-white text-5xl">-</Text>
             </TouchableOpacity>
-            <Text>10 sec</Text>
+            <Text>{time} sec</Text>
             <TouchableOpacity
                 className="items-center justify-center w-14 h-14 bg-green-500 rounded-full"
+                onPress={handleIncreaseTime}
             >
                 <Text className="text-white text-3xl">+</Text>
             </TouchableOpacity>
@@ -78,7 +107,7 @@ const ExerciseScreen = () => {
             <TouchableOpacity>
                 <Text className="text-gray-500 text-xl py-2 border rounded-lg border-gray-500 px-4">START</Text>
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={handleReset}>
                 <Text className="text-gray-500 text-xl py-2 border rounded-lg border-gray-500 px-4">RESET</Text>
             </TouchableOpacity>
         </View>
