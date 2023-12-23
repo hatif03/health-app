@@ -38,7 +38,7 @@ const ExerciseScreen = () => {
 
     const handleIncreaseTime = () => {
         if(!isRunning){
-            setTime((prevTime) => prevTime+10)
+            setTime((prevTime) => prevTime+10);
         }
     };
 
@@ -47,13 +47,45 @@ const ExerciseScreen = () => {
         setIsFirstTime(true);
         setTime(initTime);
     };
+
+    useEffect(() => {
+        let countdownInterval;
+        if(isRunning && time>0){
+            countdownInterval = setInterval(() => {
+                setTime((prevTime) => prevTime-1);
+            }, 1000)
+        } else {
+            setIsRunning(false);
+            clearInterval(countdownInterval)
+        }
+
+        return () => {
+            clearInterval(countdownInterval);
+        };
+    }, [isRunning, time]);
+
+    const handleStart = () => {
+        if(!isRunning && isFirstTime){
+            setIsFirstTime(false);
+            setIsRunning(true)
+        }
+        else {
+            setIsRunning(true);
+        }
+    };
+
+    const handlePause = () => {
+        if(isRunning){
+            setIsRunning(false);
+        }
+    };
     
   return (
     <View className=" flex-1">
       {gifUrl? (
         <Image source={{uri: gifUrl}} className=" w-full h-80"/>
         ) : (
-        <View className=" items-center justify-center">
+        <View className=" items-center justify-center w-full h-80">
             <ActivityIndicator size={"large"} color={"gray"}/>
         </View>
       )}
@@ -104,8 +136,10 @@ const ExerciseScreen = () => {
             </TouchableOpacity>
         </View>
         <View className="mt-4 flex-row items-center justify-center mb-10 space-x-4">
-            <TouchableOpacity>
-                <Text className="text-gray-500 text-xl py-2 border rounded-lg border-gray-500 px-4">START</Text>
+            <TouchableOpacity onPress={isRunning? handlePause : handleStart}>
+                <Text className="text-gray-500 text-xl py-2 border rounded-lg border-gray-500 px-4">
+                    {isRunning? "PAUSE" : "START"}
+                </Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={handleReset}>
                 <Text className="text-gray-500 text-xl py-2 border rounded-lg border-gray-500 px-4">RESET</Text>
