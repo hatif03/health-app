@@ -3,6 +3,9 @@ import React, { useEffect, useState } from 'react'
 import { useRoute } from '@react-navigation/native'
 import { getDownloadURL, ref } from "firebase/storage";
 import { storage } from '../../Firebase/config';
+import countDownAudio from "../../assets/audio/countdownaudio.mp3";
+import Audio from "expo-av";
+import BackButton from '../Components/BackButton';
 
 const ExerciseScreen = () => {
     const route = useRoute();
@@ -13,8 +16,21 @@ const ExerciseScreen = () => {
     const minTime = 10;
     const [time, setTime] = useState(initTime);
     const [isRunning, setIsRunning] = useState(false);
-    const [isAudioPlaying, setAudioPlaying] = useState(false);
+    const [isAudioPlaying, setIsAudioPlaying] = useState(false);
     const [isFirstTime, setIsFirstTime] = useState(true);
+    const [countDownSound, setCountDownSound] = useState();
+
+    async function playSound() {
+        const { sound } = await Audio.Sound.createAsync(countDownAudio);
+        setCountDownSound(sound);
+        sound.setOnPlaybackStatusUpdate((status) => {
+          if (status.didJustFinish) {
+            setIsAudioPlaying(false);
+          }
+        });
+        await sound.playAsync();
+        setIsAudioPlaying(true);
+      }
 
     const fetchGifUrl = async () => {
         try{
@@ -46,6 +62,10 @@ const ExerciseScreen = () => {
         setIsRunning(false);
         setIsFirstTime(true);
         setTime(initTime);
+        if (countDownSound && isAudioPlaying) {
+            countDownSound.stopAsync();
+            setIsAudioPlaying(false);
+        }
     };
 
     useEffect(() => {
@@ -53,7 +73,12 @@ const ExerciseScreen = () => {
         if(isRunning && time>0){
             countdownInterval = setInterval(() => {
                 setTime((prevTime) => prevTime-1);
-            }, 1000)
+                if (time === 4) {
+                    // console.log("time is 4");
+                    playSound();
+                }
+            }, 
+            1000)
         } else {
             setIsRunning(false);
             clearInterval(countdownInterval)
@@ -89,6 +114,7 @@ const ExerciseScreen = () => {
             <ActivityIndicator size={"large"} color={"gray"}/>
         </View>
       )}
+      <BackButton/>
       <ScrollView
         showsVerticalScrollIndicator={false}
       >
@@ -136,14 +162,23 @@ const ExerciseScreen = () => {
             </TouchableOpacity>
         </View>
         <View className="mt-4 flex-row items-center justify-center mb-10 space-x-4">
-            <TouchableOpacity onPress={isRunning? handlePause : handleStart}>
-                <Text className="text-gray-500 text-xl py-2 border rounded-lg border-gray-500 px-4">
-                    {isRunning? "PAUSE" : "START"}
-                </Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={handleReset}>
-                <Text className="text-gray-500 text-xl py-2 border rounded-lg border-gray-500 px-4">RESET</Text>
-            </TouchableOpacity>
+          <TouchableOpacity
+            onPress={isRunning ? handlePause : handleStart}
+            disabled={time === 0}
+          >
+            <Text
+              className={`text-blue-500 text-xl py-2 border rounded-lg border-blue-500 px-4 ${
+                time === 0 ? "opacity-50" : ""
+              }`}
+            >
+              {isRunning ? "PAUSE" : "START"}
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={handleReset}>
+            <Text className="text-gray-500 text-xl py-2 border rounded-lg border-gray-500 px-4">
+              RESET
+            </Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </View>

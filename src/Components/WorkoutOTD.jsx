@@ -5,7 +5,9 @@ import { TouchableOpacity } from 'react-native'
 import {
     useFonts,
     Lato_700Bold,
-  } from '@expo-google-fonts/lato'
+  } from '@expo-google-fonts/lato';
+import { ref } from 'firebase/storage';
+import { storage } from '../../Firebase/config';
 
 const WorkoutOTD = () => {
 
@@ -13,8 +15,14 @@ const WorkoutOTD = () => {
         Lato_700Bold,
       });
 
+    const getExerciseOTD = async () => {
+        const date = new Date().getDate();
+        console.log(date);
+        const storageRef = ref(storage, "AllExercises/")
+    };
+
   return (
-    <TouchableOpacity className="items-center justify-center my-5">
+    <TouchableOpacity className="items-center justify-center my-5" onPress={getExerciseOTD}>
         <View className=" rounded-3xl overflow-hidden h-40 w-[80%]">
             <ImageBackground
                 source={workout}

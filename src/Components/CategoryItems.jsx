@@ -11,6 +11,7 @@ import { FlatList } from 'react-native'
 import { TouchableOpacity } from 'react-native'
 import { ImageBackground } from 'react-native'
 import { FontAwesome5 } from '@expo/vector-icons'
+import { useNavigation } from '@react-navigation/native'
 
 const workoutData = [
     { id: 1, imageSource: balance, numberOfExercises: 9, title: "Balance" },
@@ -25,8 +26,15 @@ const workoutData = [
 
 const CategoryItems = () => {
 
-    const renderWorkoutItem = ({ item }) => (
-        <TouchableOpacity>
+  const navigation = useNavigation();
+
+  // const handleExercisePress = ({intensity}) => {
+  //   console.log(intensity);
+  //   navigation.navigate("CategoryExercise", {intensity})
+  // };
+
+  const renderWorkoutItem = ({ item }) => (
+        <TouchableOpacity onPress={() => navigation.navigate("CategoryExercise", {intensity: item.title})}>
           <ImageBackground
             source={item.imageSource}
             className="h-36 w-40 rounded-2xl overflow-hidden mx-2 bg-pink-900"
