@@ -1,6 +1,5 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { Text, View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
@@ -71,6 +70,7 @@ export default function App() {
         <Stack.Screen name='CategoryExercise' component={CategoryExerciseScreen}/>
         <Stack.Screen name="WorkoutOTDScreen" component={WorkoutOTDScreen} />
       </Stack.Navigator>
+    <StatusBar style='auto'/>
     </NavigationContainer>
   );
 }
