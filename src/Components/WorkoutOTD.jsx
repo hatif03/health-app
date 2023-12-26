@@ -2,19 +2,11 @@ import { View, Text, ImageBackground } from 'react-native'
 import React, { useState } from 'react'
 import workout from "../../assets/images/workout.jpg"
 import { TouchableOpacity } from 'react-native'
-import {
-    useFonts,
-    Lato_700Bold,
-  } from '@expo-google-fonts/lato';
 import { getDownloadURL, listAll, ref } from 'firebase/storage';
 import { storage } from '../../Firebase/config';
 import { useNavigation } from "@react-navigation/native";
 
 const WorkoutOTD = () => {
-
-    let [fontsLoaded] = useFonts({
-        Lato_700Bold,
-      });
 
       const [workoutOTDUrl, setWorkoutOTDUrl] = useState(null);
       const [workoutName, setWorkoutName] = useState(null);
@@ -49,7 +41,7 @@ const WorkoutOTD = () => {
                 resizeMode='cover'
             >
                 <View>
-                    <Text className=" text-white/80 text-3xl tracking-tight" style={{fontFamily:'Lato_700Bold'}}>Workout of the Day</Text>
+                    <Text className=" text-white/80 text-3xl tracking-tight">Workout of the Day</Text>
                 </View>
             </ImageBackground>
         </View>

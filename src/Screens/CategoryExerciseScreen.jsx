@@ -61,7 +61,6 @@ const CategoryExerciseScreen = () => {
       useEffect(() => {
         getExercisesByIntensity(intensity);
       }, []);
-      console.log(exercises);
 
       const fetchGifUrl = async (exercise) => {
         try{
